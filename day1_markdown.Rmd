@@ -5,13 +5,76 @@ date: "May 5, 2016"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=TRUE}
+setwd("~/repos/r_course/")
+mode(double)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library("klaR", lib.loc="~/Library/R/3.3/library")
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
 ```
 
-```{r chunkName}
-
+```{r}
+# hastag is the comment leader
 # This is a code chunk. It can contain any R code as specified byt he options inside {} above
+sprintf( "Hello World... lets do som Fuckin' R!" )
+```
 
-cat("Hello world\n")
+```{r import_data}
+#glassDat <-
+#  read.csv("~/repos/lr_gui/datasets/data_zadoraGlass.csv", header = TRUE, sep = ",")
+#plot(glassDat)
+#howells <- read.csv("~/repos/r_course/data/howells 2.csv")
+#View(howells)
+irisData <- read.csv("~/repos/lr_gui/datasets/data_Iris.csv", header=TRUE, sep = ",")
+plot(irisData)
+#View(irisData)
+```
+
+```{r}
+# variable assignment
+x=42
+x
+#is equivalent to 
+x<-42
+x
+#ans
+42->x
+x
+```
+
+```{r}
+# function definition
+myFun <- function(x1,x2){
+  z<-(x1+x2)/2
+  return(z)
+}
+z = myFun(2,3)
+z # output to console
+```
+
+```{r}
+# example fitting a linear model
+x = randu # generate soem random data 
+fit1 = lm(y~x,x)
+plot(fit1)
+```
+
+```{r}
+# defining the labels and factors for analysis
+# factor is a categorical variable
+howells <- read.csv("~/repos/r_course/data/howells 2.csv") # load howells
+howells$Sex <- factor(howells$Sex, labels = c("male","female"), levels = c("M", "F"))
+z = data.frame(howells)
+
+```
+
+```{r}
+# assignment of vectors
+v = c(42,32,56,78,90,12,3,1,2,1) # vector of ints
+# c is for combine
+w = c("some", "stuff", "in", "a", "vector")
+t = c(v,w)
+rm(t) # remove a value
 ```
