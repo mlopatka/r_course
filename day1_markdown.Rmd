@@ -155,3 +155,24 @@ allCr <- rbind(fCr,mCr)
 allCr$sex <- factor(allCr$sex, labels = c("male","female"), levels = c("M", "F"))
 is.factor(allCr$sex)
 ```
+
+```{r}
+aq_data <- airquality
+names(aq_data)<-tolower(names(aq_data))
+names(aq_data)[2]<-"solar_r"
+names(aq_data)
+summary(aq_data)
+
+aq_long <- reshape2::melt(airquality)
+# wide format versus long data
+reshape2::melt(aq_data)->aq_long
+aq_long = data.frame(reshape2::melt(aq_long))
+aq_long = data.frame(reshape2::melt(aq_data, "month", "day"))
+```
+
+```{r}
+bone_data <- read.csv("./data/PB_growth_diffs.csv", header = TRUE, sep = ",")
+melted_bones <- reshape2::melt(bone_data[c("age","hum_diff","rad_diff","tib_diff")])
+names(melted_bones) <- c("age","bone","difference")
+head(melted_bones, 10)
+```

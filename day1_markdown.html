@@ -394,7 +394,55 @@ merge(dataFrameA,dataFrameB)</code></pre>
 mCr &lt;- read.csv(&quot;./data/allcran_M.csv&quot;, header = TRUE, sep = &quot;,&quot;)
 fCr[,&quot;sex&quot;] &lt;- &quot;F&quot;
 allCr &lt;- rbind(fCr,mCr)
-allCr$sex &lt;- factor(allCr$sex, labels = c(&quot;male&quot;,&quot;female&quot;), levels = c(&quot;M&quot;, &quot;F&quot;))</code></pre>
+allCr$sex &lt;- factor(allCr$sex, labels = c(&quot;male&quot;,&quot;female&quot;), levels = c(&quot;M&quot;, &quot;F&quot;))
+is.factor(allCr$sex)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>aq_data &lt;- airquality
+names(aq_data)&lt;-tolower(names(aq_data))
+names(aq_data)[2]&lt;-&quot;solar_r&quot;
+names(aq_data)</code></pre>
+<pre><code>## [1] &quot;ozone&quot;   &quot;solar_r&quot; &quot;wind&quot;    &quot;temp&quot;    &quot;month&quot;   &quot;day&quot;</code></pre>
+<pre class="r"><code>summary(aq_data)</code></pre>
+<pre><code>##      ozone           solar_r           wind             temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA's   :37       NA's   :7                                       
+##      month            day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## </code></pre>
+<pre class="r"><code>aq_long &lt;- reshape2::melt(airquality)</code></pre>
+<pre><code>## No id variables; using all as measure variables</code></pre>
+<pre class="r"><code># wide format versus long data
+reshape2::melt(aq_data)-&gt;aq_long</code></pre>
+<pre><code>## No id variables; using all as measure variables</code></pre>
+<pre class="r"><code>aq_long = data.frame(reshape2::melt(aq_long))</code></pre>
+<pre><code>## Using variable as id variables</code></pre>
+<pre class="r"><code>aq_long = data.frame(reshape2::melt(aq_data, &quot;month&quot;, &quot;day&quot;))</code></pre>
+<pre class="r"><code>bone_data &lt;- read.csv(&quot;./data/PB_growth_diffs.csv&quot;, header = TRUE, sep = &quot;,&quot;)
+melted_bones &lt;- reshape2::melt(bone_data[c(&quot;age&quot;,&quot;hum_diff&quot;,&quot;rad_diff&quot;,&quot;tib_diff&quot;)])</code></pre>
+<pre><code>## Using age as id variables</code></pre>
+<pre class="r"><code>names(melted_bones) &lt;- c(&quot;age&quot;,&quot;bone&quot;,&quot;difference&quot;)
+head(melted_bones, 10)</code></pre>
+<pre><code>##    age     bone difference
+## 1   &lt;1 hum_diff      -0.31
+## 2    1 hum_diff       0.40
+## 3    2 hum_diff       1.09
+## 4    3 hum_diff       1.20
+## 5    4 hum_diff       1.54
+## 6    5 hum_diff       2.23
+## 7    6 hum_diff       0.70
+## 8    7 hum_diff       1.98
+## 9    8 hum_diff       2.62
+## 10   9 hum_diff       2.21</code></pre>
 
 
 
