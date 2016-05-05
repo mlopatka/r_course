@@ -186,7 +186,92 @@ plot(fit1)</code></pre>
 # factor is a categorical variable
 howells &lt;- read.csv(&quot;~/repos/r_course/data/howells 2.csv&quot;) # load howells
 howells$Sex &lt;- factor(howells$Sex, labels = c(&quot;male&quot;,&quot;female&quot;), levels = c(&quot;M&quot;, &quot;F&quot;))
-z = data.frame(howells)</code></pre>
+z = data.frame(howells)
+# data.frame($input) is the class constructor for a data frame.
+
+howells$Sex &lt;-factor(howells$Sex)
+# isolate a singel column from the data frame and designate that categorical variable is now a FACTOR</code></pre>
+<pre class="r"><code># assignment of vectors
+v = c(42,32,56,78,90,12,3,1,2,1) # vector of ints
+# c is for combine
+w = c(&quot;some&quot;, &quot;stuff&quot;, &quot;in&quot;, &quot;a&quot;, &quot;vector&quot;)
+t = c(v,w)
+rm(t) # remove a value</code></pre>
+<pre class="r"><code>glassDat &lt;- read.csv(&quot;~/repos/lr_gui/datasets/data_zadoraGlass.csv&quot;, header = TRUE, sep = &quot;,&quot;)
+glassDat$source &lt;- factor(glassDat$X_lab_item)
+glassDat$fragment &lt;- factor(glassDat$X_lab_fragment)</code></pre>
+<pre class="r"><code># exploring the characteristics of imported data.
+oldFaithfulData = faithful
+head(oldFaithfulData,5) # examine the head fo the data (specify number of elements)</code></pre>
+<pre><code>##   eruptions waiting
+## 1     3.600      79
+## 2     1.800      54
+## 3     3.333      74
+## 4     2.283      62
+## 5     4.533      85</code></pre>
+<pre class="r"><code>tail(oldFaithfulData,5) # examine the head fo the data (specify number of elements)</code></pre>
+<pre><code>##     eruptions waiting
+## 268     4.117      81
+## 269     2.150      46
+## 270     4.417      90
+## 271     1.817      46
+## 272     4.467      74</code></pre>
+<pre class="r"><code>dim(oldFaithfulData) # show dimensions</code></pre>
+<pre><code>## [1] 272   2</code></pre>
+<pre class="r"><code>names(oldFaithfulData) # show the variable names</code></pre>
+<pre><code>## [1] &quot;eruptions&quot; &quot;waiting&quot;</code></pre>
+<pre class="r"><code>str(oldFaithfulData)</code></pre>
+<pre><code>## 'data.frame':    272 obs. of  2 variables:
+##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
+##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
+<pre class="r"><code>#cars example
+cars_data = mtcars;
+# slice 5th row:
+fifthCar = cars_data[5,]
+fifthCar[4] # displays the horsepower</code></pre>
+<pre><code>##                    hp
+## Hornet Sportabout 175</code></pre>
+<pre class="r"><code>w_h &lt;- dim(cars_data)
+w_h[1] #display rows</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code>w_h[2] #display columns</code></pre>
+<pre><code>## [1] 11</code></pre>
+<pre class="r"><code>fifthCar$hp #displays the value of the variable after $</code></pre>
+<pre><code>## [1] 175</code></pre>
+<pre class="r"><code>cars_data[c(&quot;hp&quot;, &quot;gear&quot;)] </code></pre>
+<pre><code>##                      hp gear
+## Mazda RX4           110    4
+## Mazda RX4 Wag       110    4
+## Datsun 710           93    4
+## Hornet 4 Drive      110    3
+## Hornet Sportabout   175    3
+## Valiant             105    3
+## Duster 360          245    3
+## Merc 240D            62    4
+## Merc 230             95    4
+## Merc 280            123    4
+## Merc 280C           123    4
+## Merc 450SE          180    3
+## Merc 450SL          180    3
+## Merc 450SLC         180    3
+## Cadillac Fleetwood  205    3
+## Lincoln Continental 215    3
+## Chrysler Imperial   230    3
+## Fiat 128             66    4
+## Honda Civic          52    4
+## Toyota Corolla       65    4
+## Toyota Corona        97    3
+## Dodge Challenger    150    3
+## AMC Javelin         150    3
+## Camaro Z28          245    3
+## Pontiac Firebird    175    3
+## Fiat X1-9            66    4
+## Porsche 914-2        91    5
+## Lotus Europa        113    5
+## Ford Pantera L      264    5
+## Ferrari Dino        175    5
+## Maserati Bora       335    5
+## Volvo 142E          109    4</code></pre>
 
 
 

@@ -67,7 +67,10 @@ plot(fit1)
 howells <- read.csv("~/repos/r_course/data/howells 2.csv") # load howells
 howells$Sex <- factor(howells$Sex, labels = c("male","female"), levels = c("M", "F"))
 z = data.frame(howells)
+# data.frame($input) is the class constructor for a data frame.
 
+howells$Sex <-factor(howells$Sex)
+# isolate a singel column from the data frame and designate that categorical variable is now a FACTOR
 ```
 
 ```{r}
@@ -77,4 +80,47 @@ v = c(42,32,56,78,90,12,3,1,2,1) # vector of ints
 w = c("some", "stuff", "in", "a", "vector")
 t = c(v,w)
 rm(t) # remove a value
+```
+
+```{r}
+glassDat <- read.csv("~/repos/lr_gui/datasets/data_zadoraGlass.csv", header = TRUE, sep = ",")
+glassDat$source <- factor(glassDat$X_lab_item)
+glassDat$fragment <- factor(glassDat$X_lab_fragment)
+
+```
+
+```{r}
+# exploring the characteristics of imported data.
+oldFaithfulData = faithful
+head(oldFaithfulData,5) # examine the head fo the data (specify number of elements)
+tail(oldFaithfulData,5) # examine the head fo the data (specify number of elements)
+dim(oldFaithfulData) # show dimensions
+names(oldFaithfulData) # show the variable names
+str(oldFaithfulData)
+```
+
+```{r}
+#cars example
+cars_data = mtcars;
+# slice 5th row:
+fifthCar = cars_data[5,]
+fifthCar[4] # displays the horsepower
+w_h <- dim(cars_data)
+w_h[1] #display rows
+w_h[2] #display columns
+fifthCar$hp #displays the value of the variable after $
+cars_data[c("hp", "gear")] 
+cars_data[23:27,] #rows 23 through 27 and all columns
+# library lookup
+cars_data["Ford Pantera L","gear"] # display the number fo gears for a particular entry
+# vector indexing can be forced to output a datframe subset by adding the option drop=FALSE
+#Exclusion indexing!
+cars_data[,-4,drop=FALSE]
+```
+
+
+```{r} 
+# specific excercise output
+oldFaithfulData[110:112,c("eruptions","waiting")]
+oldFaithfulData[110:112,"waiting", drop(FALSE)]
 ```
