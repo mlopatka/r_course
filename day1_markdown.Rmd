@@ -1,0 +1,17 @@
+---
+title: "r_course_day_1"
+author: "Martin Lopatka"
+date: "May 5, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r chunkName}
+
+# This is a code chunk. It can contain any R code as specified byt he options inside {} above
+
+cat("Hello world\n")
+```
