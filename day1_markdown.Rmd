@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=TRUE}
 setwd("~/repos/r_course/")
 mode(double)
+library(car)
 library(knitr)
 library(dplyr)
 library(ggplot2)
@@ -123,4 +124,34 @@ cars_data[,-4,drop=FALSE]
 # specific excercise output
 oldFaithfulData[110:112,c("eruptions","waiting")]
 oldFaithfulData[110:112,"waiting", drop(FALSE)]
+```
+
+```{r}
+faithful2=oldFaithfulData
+names(faithful2)[2] = "elapsedTime"
+faithful2$eruptions[1:10]
+```
+
+```{r}
+# logical operators & | == != > < >= <=
+faithful2[faithful2$eruptions > 4.9 & faithful2$elapsedTime >= 88,]
+# logical indexing IMPLIES | Logical OR
+head(faithful2[c(faithful2$eruptions > 4.9, faithful2$elapsedTime >= 88),],7)
+# change values for subsets (RECODE)
+```
+
+```{r}
+# merging and adding information to a dataframe
+dataFrameA = cars_data[,-c(5:7)] # remove certain columns
+dataFrameB = cars_data[,-5:-7] # remove the same columns a different way
+merge(dataFrameA,dataFrameB)
+```
+
+```{r}
+fCr <- read.csv("./data/allcran_F.csv", header = TRUE, sep = ",")
+mCr <- read.csv("./data/allcran_M.csv", header = TRUE, sep = ",")
+fCr[,"sex"] <- "F"
+allCr <- rbind(fCr,mCr)
+allCr$sex <- factor(allCr$sex, labels = c("male","female"), levels = c("M", "F"))
+is.factor(allCr$sex)
 ```
