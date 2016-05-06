@@ -78,6 +78,14 @@ post_cran$Sex <- factor(post_cran$Sex, levels = c(0,1), labels = c("F", "M"))
 print(ggplot(post_cran, aes(x=LFML, y=lhml, colour=Sex)) + geom_point())
 
 print(ggplot(post_cran, aes(x = LFML, y = lhml)) + geom_point(size = 2.5) + 
-  stat_smooth(aes(colour = Sex), method = lm, lwd = 1))
+  stat_smooth(aes(colour = Sex), method = loess, se=FALSE, lwd = 1))
+```
+
+```{r}
+# excercise with scatter colours
+post_cran_ex <- goldman %>% select(Inst, lhml, RRML) %>% filter(Inst %in% c('DC', 'KSU', 'NM', 'WOAC')) %>% na.omit()
+
+plt_handle <- ggplot(post_cran_ex, aes(x=RRML, y=lhml)) + geom_point(aes(colour = Inst))
+print(plt_handle + scale_colour_manual(values = c("red", "green", "goldenrod", "purple")))
 
 ```
