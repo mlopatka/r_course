@@ -1,0 +1,53 @@
+---
+title: "homework2"
+author: "Martin Lopatka"
+date: "May 6, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
+#
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r, question1}
+# 1. Upload the Personality Data
+pDat <-  read.csv("~/repos/r_course/data/Personality_data.csv", header=TRUE, sep = "\t")
+head(pDat,10)
+# tab delimeter specified, data looked fuched with default options
+```
+
+```{r question2}
+#2. I am interested in the five datasets described below. Provide the dimensions and column names for each dataset:
+#3A) The answers to question E5 from females, less than 55 years of age, and from GB 
+h_3A <- pDat %>% filter(gender %in% 2 & age<55 & country=="GB") %>% select(c(gender,age,country,E3))
+dim(h_3A)
+names(h_3A)
+
+#3B) The answers to question N2 from males, older than 40, from US.
+h_3B <- pDat %>% filter(gender %in% 1 & age>40 & country=="US") %>% select(c(gender,age,country,N2))
+dim(h_3B)
+names(h_3B)
+
+#3C) The answers to question 05 from males from AU that have English as a native language.
+h_3C <- pDat %>% filter(gender %in% 1 & engnat==1 & country=="AU") %>% select(c(gender,country,engnat,O5))
+dim(h_3C)
+names(h_3C)
+
+#3D) The answers to question A3 from right-handed females in IN.
+h_3D <- pDat %>% filter(gender %in% 2 & hand==1 & country=="IN") %>% select(c(hand,gender,country,A3))
+dim(h_3D)
+names(h_3D)
+
+#3E) Create a subset that includes the extrovert questions (i.e. E) from only left-handed males. Arrange the data in ascending order by E1. 
+h_3E <- pDat %>% filter(gender %in% 1 & hand==2) %>% select(c(hand, gender, starts_with("E"))) %>% select(-engnat) %>% arrange(E1)
+
+dim(h_3E)
+names(h_3E)
+
+```
