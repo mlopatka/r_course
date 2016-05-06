@@ -1,0 +1,83 @@
+---
+title: "day2b_visualization_markdown"
+author: "Martin Lopatka"
+date: "May 6, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
+#
+library(dplyr)
+library(magrittr)
+library(hflights)
+library(car)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+howells <- read.csv("~/repos/r_course/data/howells 2.csv") # load howells
+```
+
+```{r}
+#what is ggplot2
+# grammar of graphics book
+# basic types:
+# geom_boxplot()
+# geom_histogram()
+# geom_line()
+# geom_density()
+# geom_point()
+
+gol <- howells %>% select(Sex,Population,GOL) %>% filter(Population %in% c('ARIKARA','NORSE','HAINAN')) %>% na.omit()
+
+plot_handle <- ggplot(gol, aes(x=Population, y=GOL)) + geom_boxplot() 
+
+print(plot_handle)
+```
+
+```{r}
+# excercise with ggplot2
+nlb <- howells %>% select(Sex, Population, NLB) %>% filter(Population %in% c('NORSE', 'BUSHMAN', 'S JAPAN')) %>% na.omit()
+
+bplot <- ggplot(gol, aes(x=Population, y=GOL, fill=Sex)) + geom_violin()
+
+print(bplot)
+```
+
+```{r}
+# last top level expression evaluation
+.Last.value
+```
+
+```{r}
+ggplot(faithful, aes(x=waiting)) + geom_line(stat = "density")
+print(.Last.value)
+
+ggplot(faithful, aes(x=waiting)) + geom_histogram(aes(y=..density..),# Histogram with density instead of count on y-axis
+  binwidth=1,
+  colour="black", alpha=.2, fill="hotpink") + geom_density(colour="NA", alpha=.3, fill="goldenrod") 
+print(.Last.value)
+```
+
+```{r}
+tg <- ToothGrowth %>% group_by(supp, dose) %>% summarize(length = mean(len))
+  print(ggplot(tg, aes(x=dose, y=length, lty=supp)) + geom_line(lwd=1.5) + geom_point(pch=11,size=6))
+```
+
+```{r}
+goldman <- read.csv("~/repos/r_course/data/goldman_pc.csv") # load howells 
+
+post_cran <- goldman %>% select(Inst, Sex, lhml, lheb, LFML) %>% filter(Sex %in% c(0,1), lhml > 230) %>% na.omit()
+# create labelled factors
+post_cran$Sex <- factor(post_cran$Sex, levels = c(0,1), labels = c("F", "M"))
+
+print(ggplot(post_cran, aes(x=LFML, y=lhml, colour=Sex)) + geom_point())
+
+print(ggplot(post_cran, aes(x = LFML, y = lhml)) + geom_point(size = 2.5) + 
+  stat_smooth(aes(colour = Sex), method = lm, lwd = 1))
+
+```

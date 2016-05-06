@@ -1,0 +1,107 @@
+---
+title: "day2_markdown"
+author: "Martin Lopatka"
+date: "May 6, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
+#
+library(dplyr)
+library(magrittr)
+library(hflights)
+library(car)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+# dplyr always takes the data fram as the first arguement
+# susequent arguements describe what the pipeline will do to the data
+# result will be a data frame
+# %>% this is the pipe operator
+howells <- read.csv("~/repos/r_course/data/howells 2.csv") # load howells
+
+mySubset <- howells %>% select(Population, Sex, XCB) %>% filter(Population == "PERU") %>% arrange(XCB) 
+# select then filter on one value the sort
+
+#inside the select you can call a rename
+#select(new_name = old_name)
+
+a<-hflights %>% select(-Year)
+# assign all columsn in data frame flights except Year to dtaframe a
+
+b<-hflights %>% select(-c(Year,TaxiIn,TaxiOut))
+c<-hflights %>% select(starts_with("A"))
+
+```
+
+```{r}
+# excercise with Howells
+h_ans<-howells %>% select(c(ID,Sex,Population,GOL,NOL,DKB))
+head(h_ans, 6)
+
+# filtering rows
+h_ladies <- howells %>% filter(Sex %in% "F" & Population %in% c("AINU","PERU"))
+big_headed_ladies <- h_ladies %>% filter(XCB>130) %>% arrange(XCB) 
+#
+head(big_headed_ladies[,1:10], 10)
+
+# slicing rows by index
+# big_headed_ladies %>% slice(1:10)
+# big_headed_ladies %>% slice(n()-10:n()) # or counting backwards
+
+# arrange
+ainu_w <- howells %>% select(c(Population,Sex)) %>% filter(Population %in% "AINU") %>% arrange(Sex)
+head(ainu_w, 10)
+#
+ainu_m <- ainu_w %>% arrange(desc(Sex))
+head(ainu_m, 10)
+
+hflights %<>% select(-DayOfWeek)
+```
+
+```{r}
+# working with mutate()
+a<-(howells %>% select(c(GOL,BBH,XCB)))
+vaultSize <- (a[1]*a[2]*a[3])^(1/3)
+head(vaultSize)
+```
+
+```{r}
+#mutate and paste
+popsex_sub <- howells %>% mutate(popSex = paste(Sex, Population, sep = ""))
+popsex_sub %<>% select(c(ID,Sex,Population,popSex))
+head(popsex_sub, 10)
+```
+
+```{r}
+# transmute, is mutate but all unreferenced columns are dropped
+popsex_sub <- howells %>% transmute(popSex = paste(Sex, Population, sep = ""))
+head(popsex_sub, 10)
+```
+
+```{r}
+# na.omit() removes  incomplete rows
+# complete.cases() returns a logical index into complete rows
+head(hflights %>% select(DepTime,ArrTime) %>% na.omit())
+```
+
+```{r}
+# group_by()
+# summarize
+pop_count <- howells %>% group_by(XCB>130) %>% summarize(count = n())
+head(pop_count)
+pop_count <- howells %>% group_by(XCB>160) %>% summarize(count = n())
+head(pop_count)
+```
+
+```{r}
+# tolower()
+# toupper()
+# lower versus upper case text strings
+```
+
