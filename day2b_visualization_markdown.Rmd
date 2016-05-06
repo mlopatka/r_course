@@ -88,4 +88,23 @@ post_cran_ex <- goldman %>% select(Inst, lhml, RRML) %>% filter(Inst %in% c('DC'
 plt_handle <- ggplot(post_cran_ex, aes(x=RRML, y=lhml)) + geom_point(aes(colour = Inst))
 print(plt_handle + scale_colour_manual(values = c("red", "green", "goldenrod", "purple")))
 
+plt_handle <- plt_handle + labs(x = "Radius Maximum Length", y="Humerus Maximum Length", title = "GGplot2 scatterplot coloured by institute contributing catalogue entry") + theme_bw()
+
+print(plt_handle) 
+```
+
+
+```{r}
+my_theme <- theme_bw() + 
+  theme(legend.background=element_blank(),
+  legend.key=element_blank(), 
+  panel.grid.major = element_blank(), 
+  panel.grid.minor = element_blank(), 
+  legend.title=element_text(face='plain', size=14), 
+  axis.title=element_text(size=15, 
+  lineheight=.9, vjust=.3), 
+  axis.text=element_text(size=12),  
+  axis.title.x=element_text(vjust=.2), 
+  axis.title.y=element_text(vjust=.3), 
+  legend.text=element_text(size=12))
 ```
