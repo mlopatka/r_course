@@ -1,0 +1,54 @@
+---
+title: "homework_1"
+author: "Martin Lopatka"
+date: "May 6, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
+#
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r, question1}
+# 1) Import Spitalfields and ensure it’s properly uploaded.
+spitalfields <-  read.csv("~/repos/r_course/data/Spitalfields_Cran-KES.csv")
+head(spitalfields,1)
+tail(spitalfields,1)
+```
+
+```{r question2}
+# 2) 	A. Check to see if sex is a factor. 
+# 	  B. If sex is not a factor, make it one. 
+# 	  C. Change ‘SEX’ to ‘sex’. 
+
+observed <- if(is.factor(spitalfields$SEX)) {
+  #already a factor, party hearty!
+} else {
+    spitalfields$SEX <- factor(spitalfields$SEX, labels = c(1,2))
+}
+
+is.factor(spitalfields$SEX)
+# should be a factor now even if it wasnt before
+
+names(spitalfields)[1]<-"sex"
+names(spitalfields)
+# name changed!
+```
+
+```{r question3}
+# 3) Create a new data frame (spitals2) that includes all columns except  "geog" ,  "BIBLIO", and "POPUL".
+spitals2 <- spitalfields %>% select(-c(geog,BIBLIO,POPUL))
+head(spitals2)
+```
+
+```{r question4}
+#How many individuals are in the dataset?
+cat('There are', as.character(nrow(spitals2)), 'indivicuals in the data frame, of which only', as.character(nrow(na.omit(spitals2))), 'are complete entries')
+
+```
