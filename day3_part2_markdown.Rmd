@@ -50,3 +50,18 @@ cat('the number of Alaskan data points is', prac2)
 describeBy(howells$XCB,howells$Sex)
 
 ```
+
+```{r}
+pubes1 <- read.csv("~/repos/r_course/data/Pubes1.csv")
+pubes2 <- read.csv("~/repos/r_course/data/Pubes2.csv")
+goldman <- read.csv("~/repos/r_course/data/goldman_pc.csv")
+
+summary(goldman$Sex)
+postcran <- goldman %>% select(Inst,Sex,lhml,lheb,lhhd) %>% filter(Sex %in% c(0,1), Inst %in% c('KU','MNdAE','NHM', 'SfAP')) %>% na.omit()
+
+```
+
+```{r}
+t.test(postcran$lhml ~ postcran$Sex)
+# two-taled t test for lhml grouped by sex
+```

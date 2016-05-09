@@ -1,0 +1,42 @@
+---
+title: "homework4"
+author: "Martin Lopatka"
+date: "May 9, 2016"
+output: html_document
+---
+
+```{r libraries}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r loadData}
+howells <- read.csv("~/repos/r_course/data/howells 2.csv") # load howells
+nose <- howells %>% select(Sex,Population,NLH,NLB,GOL) %>% filter(howells$Population %in% c("BERG","AINU","MORIORI","EGYPT")) %>% na.omit()
+nose %>% filter(Sex == 'M')
+
+summary(nose)
+```
+
+```{r NHT}
+#split the data into partitions relevant tot he hypothesis
+
+n_e <- nose %>% select(GOL) %>% filter(nose$Population == 'EGYPT') 
+n_m <- nose %>% select(GOL) %>% filter(nose$Population == 'MORIORI') 
+dim(n_e)
+dim(n_m)
+
+test1 <- t.test(n_e, n_m)
+test1
+
+```
+
+```{r ANOVA}
+test2 <- aov(NLH ~ Population, data=nose)
+summary(test2)
+```
+
+```{r interpretation}
+test3 <- TukeyHSD(test2, "Population", ordered=TRUE)
+test3
+```
