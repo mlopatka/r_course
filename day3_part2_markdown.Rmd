@@ -1,0 +1,26 @@
+---
+title: "day3_part2_markdown"
+author: "Martin Lopatka"
+date: "May 9, 2016"
+output: html_document
+---
+
+```{r loadPackages}
+library(mvoutlier)
+library(knitr)
+#library(dplyr)
+library(ggplot2)
+#library(reshape2)
+library(car)
+library(MVN)
+#library(lattice)
+```
+
+```{r excercise1}
+growth <- read.csv("~/repos/r_course/data/growth.csv")
+names(growth)
+# change the names properly
+names(growth)<-c("id","sex","fmxl","age")
+
+
+```

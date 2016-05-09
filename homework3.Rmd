@@ -1,0 +1,45 @@
+---
+title: "homework3"
+author: "Martin Lopatka"
+date: "May 9, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path='figs/', fig.ext='eps')
+#
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(mvoutlier)
+```
+
+ <!-- 1. Import the PB-Growth-Diffs dataset. This data set has 10 columns and 13 rows of information regarding the size of proximal breadths from males and females below the age of 12 years.  -->
+
+<!-- # 2. Reshape the data from wide to long (aka melt), making a column for age, a column for bone, and a column for difference. HINT: There is an example in the HTML file! -->
+
+```{r}
+growths <- read.csv("~/repos/r_course/data/PB_growth_diffs.csv")
+growths <- growths[ , !(names(growths) %in% "X")]
+g_melted <- melt(growths, id.vars = "age", variable.name = "bone", value.name = "difference")
+head(g_melted, 15)
+```
+
+```{r}
+# Using ggplot2, provide the following four visualizations of the data. For all images use Years on the x-axis and Difference on the y-axis.
+
+# A. Plot all bones in the same visualization and differentiate by color; lwd = 1, and specify the y-axis range from -4 to +4.dat[ with(dat, grepl("ADN", bName) & pName == "2011-02-10_R2" ) , ]
+
+a_plot <- ggplot(g_melted, aes(x=age, y=difference)) + geom_line(mapping = loess())
+a_plot <- ggplot(g_melted, aes(x=age, y=difference)) + geom_line(lwd=1)
+print(a_plot)
+#B. Title the y-axis “Differences (mm)” and the x-axis “Age (years)”.
+
+#C. Specify ‘loess’ within the geom_line function.
+
+#D. Change the legend so that the words “Humerus”, “Tibia”, and “Radius” are used rather than tib_diff, hum_diff, rad_diff are used. HINT: use scale_color_discrete.
+
+```
