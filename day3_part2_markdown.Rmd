@@ -8,11 +8,13 @@ output: html_document
 ```{r loadPackages}
 library(mvoutlier)
 library(knitr)
-#library(dplyr)
+library(dplyr)
 library(ggplot2)
-#library(reshape2)
+library(reshape2)
 library(car)
 library(MVN)
+library(Hmisc)
+library(psych)
 #library(lattice)
 ```
 
@@ -21,6 +23,30 @@ growth <- read.csv("~/repos/r_course/data/growth.csv")
 names(growth)
 # change the names properly
 names(growth)<-c("id","sex","fmxl","age")
+scatterplotMatrix(growth[3:4])
 
+```
+
+```{r}
+outliers <- growth[growth$age>40,]
+rest <- growth[growth$age<40,]
+plot_handle <- ggplot(rest, aes(x=age, y=fmxl)) + geom_point()
+
+print(plot_handle)
+```
+
+```{r excercise2}
+howells <- read.csv("~/repos/r_course/data/howells 2.csv")
+postcran <- read.csv("~/repos/r_course/data/goldman_pc.csv")
+    
+#prac1 <- mean(howells[howells$Population=="EASTER I","GOL"])
+prac1 <- howells %>% select(Sex, GOL, Population) %>% filter(Sex == 'F', Population == "EASTER I")
+prac1 <- mean(prac1$GOL)
+cat('the mean GOL for Easter Island Females in the howells dataset is', prac1)
+
+prac2 <- sum(postcran$Location=="Alaska, United States")
+cat('the number of Alaskan data points is', prac2)
+
+describeBy(howells$XCB,howells$Sex)
 
 ```
