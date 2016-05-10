@@ -204,6 +204,27 @@ cat('the number of Alaskan data points is', prac2)</code></pre>
 ## 1    1 1368 139.13 7.07    139  138.88 5.93 119 167    48 0.47     0.86
 ##     se
 ## 1 0.19</code></pre>
+<pre class="r"><code>pubes1 &lt;- read.csv(&quot;~/repos/r_course/data/Pubes1.csv&quot;)
+pubes2 &lt;- read.csv(&quot;~/repos/r_course/data/Pubes2.csv&quot;)
+goldman &lt;- read.csv(&quot;~/repos/r_course/data/goldman_pc.csv&quot;)
+
+summary(goldman$Sex)</code></pre>
+<pre><code>##   0  0?   1  1? 
+## 985   5 543   5</code></pre>
+<pre class="r"><code>postcran &lt;- goldman %&gt;% select(Inst,Sex,lhml,lheb,lhhd) %&gt;% filter(Sex %in% c(0,1), Inst %in% c('KU','MNdAE','NHM', 'SfAP')) %&gt;% na.omit()</code></pre>
+<pre class="r"><code>t.test(postcran$lhml ~ postcran$Sex)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  postcran$lhml by postcran$Sex
+## t = 11.767, df = 316.56, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  22.47419 31.49879
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        311.9314        284.9449</code></pre>
+<pre class="r"><code># two-taled t test for lhml grouped by sex</code></pre>
 
 
 

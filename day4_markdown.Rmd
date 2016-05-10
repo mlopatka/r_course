@@ -1,0 +1,41 @@
+---
+title: "day4_markdown"
+author: "Martin Lopatka"
+date: "May 10, 2016"
+output: html_document
+---
+
+```{r libraries}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r dataImport}
+p_norm <- read.csv("~/repos/r_course/data/paired_normal.csv")
+lipids <- read.csv("~/repos/r_course/data/lipids.csv")
+```
+
+```{r analysis}
+#paired Ttest
+tTestResult <- t.test(p_norm$xcb2, p_norm$xcb3, paired=T)
+aovReults <- aov(lipids$rnd_three ~ lipids$type*lipids$group +  Error(lipids$specimen/lipids$rnd_three))
+#boxplot(lipids$rnd_three ~ lipids$type*lipids$group, col=(c("gold", "green"))) 
+aovReults
+
+interaction.plot(lipids$type,lipids$group,lipids$rnd_three, type="b", col=c("red","blue"), pch=c(16,18), main="Interaction Plot")
+
+```
+
+```{r repeatedMeasuresExplained}
+# person_number, measures_n_times, continuous_vlaue_measured, sex
+# looking at concentration values affected by two factors, that differs between sexes
+# The condition, the fact that time has passed and the same indivuduals 
+
+# concentration  = Bo + conditions*(weight) + Sex*(weight) + Error(specifiedgroupings)
+#                =    +       within        +     between  +      error decomposition  
+```
+
+``` {r unpairedGroups}
+
+
+```
