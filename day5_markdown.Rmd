@@ -54,6 +54,34 @@ mdl1 <- lmer(longDat$depsev~1+(1|longDat$ID),data=longDat)
 # (Intercept)  5.07786  corresponds to the average Time 0 depresion level for the entire population!
 
 # 0.7021/(0.7021+1.2218) corresponds to the intraclass correlation coefficient
+# level 1 variance is lower than the level 2 error
+# i.e. 36% of the total variatino in depression severity is accounted for by the nesting within persons
+# so high predictive value from nested structure!
+summary(mdl1)
+```
+
+```{r}
+# conditional models
+# Y_ij = n_0i + n_1iX_ij + e+ij
+# level 2 changes: n_0i = Y_00 + Y_01 * Zi + g_oi
+# Z can be mapped to a 0/1 value to make use of categorical variables intializing the random effect in some population subset
+
+mdl2 <- lmer(longDat$depsev~1 + longDat$mood + (1|longDat$ID),data=longDat) 
+summary(mdl2)
+
+#  longDat$mood 4.863e-01  2.015e-02 1.965e+03   24.13   <2e-16 ***
+# Therefore the fixed effect of mood on depression is 4.863e-01 wiht a p value of <2e-16
+
+# Also the variance in level 1 has changed drastically by the addition of an additional predictor vriable:
+# 0.8406/(0.8406+0.9304)
+# so now 0.4746471 fo the total variance in 
+
+mdl3 <- lmer(longDat$depsev~1 + longDat$mood + (1+longDat$mood|longDat$ID),data=longDat) 
+summary(mdl3)
+# now we ahve added an additional random effect for the slope fo the mood.
+# at the level 1 (the ID level)
+# (2.99952+0.02599)/(2.99952+0.02599+0.89492) so now 0.7717291 of the total variance in the  depression severity can be explained by the heirarchical nature of the data, daily mood, both average initial and the rate of daiy change in the daily mood throughout the study period.
+# individual (ID) plus the daily mood and growth status of daily mood over time. 
 
 ```
 
