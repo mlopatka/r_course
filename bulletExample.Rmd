@@ -1,0 +1,20 @@
+---
+title: "bullet"
+author: "Martin Lopatka"
+date: "May 10, 2016"
+output: html_document
+---
+
+```{r libraries}
+library(knitr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r dataLoading}
+bulletLABS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/labs.csv")
+bulletFEATS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/x.csv")
+bulletTOW <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/y.csv")
+bulletLOCS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/locations.csv")
+
+```

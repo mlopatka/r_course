@@ -6,8 +6,15 @@ output: html_document
 ---
 
 ```{r libraries}
-library(dplyr)
 library(ggplot2)
+library(magrittr)
+library(corrplot)
+library(dplyr)
+library(car)
+library(psych)
+library(pwr)
+library(vcd)
+library(gmodels)
 ```
 
 ```{r dataImport}
@@ -36,6 +43,69 @@ interaction.plot(lipids$type,lipids$group,lipids$rnd_three, type="b", col=c("red
 ```
 
 ``` {r unpairedGroups}
+pelvisDat <- read.csv("~/repos/r_course/data/pelvis.csv")
+wilcox.test(pelvisDat$VA ~ pelvisDat$sex, data = pelvisDat)
+#  measurement_of_interest ~ categorical_for_grouping, dataFrame_to_use
+```
 
+```{r 3_orMore_unpaired}
+testRes <- wilcox.test(pelvisDat$MIPR ~ pelvisDat$sex, data = pelvisDat, distribution="exact")
+testRes 
+pelvisDat <- read.csv("~/repos/r_course/data/goldman_pc.csv")
+hum <- pelvisDat %>% select(c(Inst,lhml)) %>% filter(Inst %in% c('NM','KU','DC')) %>% na.omit()
+kruskal.test(hum$lhml ~ hum$Inst, data=hum)
+```
+
+```{r correlation}
+howells <- read.csv("~/repos/r_course/data/howells 2.csv")
+pc_corr <- corr.test(howells[5:14])
+
+#Make a corrplot for howells[10:16]
+#pc_corr <- corr.test(howells[10:16])
+pc_corr <- cor(howells[10:16])
+corrplot(pc_corr, method="ellipse", type="lower", tl.col="black")
+
+# calculate the number of participants needed to establish a particular effect size
+pwr.chisq.test(w=.5, df=3, sig.level=.05, power=.8)
+#w = effect size, df = degrees of freedom, sig.level = alpha, power = beta value
+```
+
+
+```{r arthritisExample}
+arth<-Arthritis
+myTable <- table(arth$Improved)
+myTable <- prop.table(myTable)*100
+```
+
+```{r}
+mytable <- table(Arthritis$Improved)
+prop.table(mytable)
+mytable <- xtabs(~ Treatment + Improved, data=Arthritis)
+addmargins(round(prop.table(mytable),3))*100
+#contingency table with percentage values for inmprove3ment state and treatment strategy
+
+fisher.test(Arthritis$Treatment, Arthritis$Improved)
+```
+
+```{r}
+hairEye <- margin.table(HairEyeColor, c(1,2))
+chisq.test(hairEye)
+```
+
+
+```{r}
+persDat <- read.delim("~/repos/r_course/data/Personality_data.csv")
+spilt1 <- persDat %>% filter(N8 > 0, gender %in% c(1,2))
+xtabs(~ spilt1$gender + spilt1$N8)
+
+chisq.test(spilt1$gender, spilt1$N8)
+
+spilt1$gender <- recode(spilt1$gender, "1='Male'; 2='Female'") 
+mood <- xtabs(~ spilt1$gender + spilt1$N8)
+mosaic(mood, shade= TRUE)
+sum(spilt1$gender=="Male")
+sum(spilt1$gender=="Female")
 
 ```
+
+

@@ -1,0 +1,73 @@
+---
+title: "day4_afternoon_markdown"
+author: "Martin Lopatka"
+date: "May 10, 2016"
+output: html_document
+---
+
+```{r libraries}
+library(ggplot2)
+library(magrittr)
+library(corrplot)
+library(dplyr)
+library(car)
+library(psych)
+library(pwr)
+library(vcd)
+library(gmodels)
+library(gvlma)
+```
+
+```{r}
+bulletFEATS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/x.csv")
+bulletTOW <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/y.csv")
+#fit <- lm(data.frame(bulletTOW) ~ bulletFEATS$X2859.8)
+
+```
+
+
+```{r}
+summary(fit <- lm(weight ~ height, data=women))
+# Weight = −87.52 + 3.45(Height)
+# interpretation: ~99% of the variability in weight can be predicted by the height.
+```
+
+```{r}
+hwReg <- read.csv("~/repos/r_course/data/height_weight.csv")
+names(hwReg) <- c("nr","age","height","weight")
+hwReg %<>% filter(as.numeric(hwReg$height) > 750 & as.numeric(hwReg$weight) < 450)
+
+x_w<-as.numeric(hwReg$weight)
+y_h<-as.numeric(hwReg$height)
+fithw <- lm(y_h ~ x_w)
+summary(fithw)
+hwReg <- data.frame(y_h,x_w)
+ggplot(hwReg, aes(x=x_w, y=y_h))+ geom_point() + geom_abline(intercept=840.25133, slope=1.99293)
+plot(fithw)
+influencePlot(fithw, id.method="noteworthy")
+cook <- cooks.distance(fithw)
+plot(cook)
+```
+
+```{r}
+ggplot(as.data.frame(fithw[2]), aes(x=residuals)) + geom_histogram(aes(y=..density..), binwidth=5, color = "black", fill = "goldenrod")
+
+ks.test(as.data.frame(fithw$residuals), "pt",df=nrow(mtcars)-2-2) 
+gvlma(fithw)
+
+ncvTest(fithw)
+spreadLevelPlot(fithw)
+```
+
+```{r}
+stats_qq <- qqPlot(fithw)
+spreadLevelPlot(fithw)
+ncvTest(fithw)
+```
+A significant p-value for this test suggests heteroscedasticity (violation!), therefore the observed p-value suggest we are OK for the honoscecadicity assumption
+
+```{r}
+
+
+```
+
