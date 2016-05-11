@@ -10,4 +10,50 @@ library(ggplot2)
 library(magrittr)
 library(dplyr)
 library(car)
+library(lme4)
+library(lmerTest)
 ```
+
+```{r loadData}
+longDat <- read.csv("~/repos/r_course/data/longdata.csv")
+```
+
+```{r}
+# E(y) = B_0 + B_1*X1_i + e
+# standard linear equation
+# nested data: 2 levels of nesting
+# smallest unit of analysis.
+
+# Fixed Effects: the effect applies equally to all participants, therefore the slope must be equal, but the intercept will be flexible.
+# Random Effects: the effect will differe for each individual in the population.
+# Mixed effects both fixed, and random
+
+# level 1 prediction
+# Y_i,j = growth + error
+# Y_ij = n_0i + n_1iX_ij + e+ij
+
+# level 2 prediction
+# n_0i = Y_00 + g_0i
+# Y_00 is the mean initial status or popuation avergae for all intercepts pertaining to one individual
+# g_0i is the level 2 random effect of initial status (intercept) error term for individuals fromt he group mean.
+
+# random intercepts fixed slopes (mean of the slopes for all groups = y_00)
+# discrepancy between each indivdual and the mean (y_00) is the 
+
+# random slopes are inputed into g_1i
+# mean of slopes should be ~0
+# indivisual slopes for one person lead to an individual's random effect 
+# which will be different per individual (difference in global slope and individual group slope)
+```
+
+```{r}
+
+mdl1 <- lmer(longDat$depsev~1+(1|longDat$ID),data=longDat)
+# ID is the individual, so this is the nesting (level 2) variable
+# depSev = the thing to be observed
+# (Intercept)  5.07786  corresponds to the average Time 0 depresion level for the entire population!
+
+# 0.7021/(0.7021+1.2218) corresponds to the intraclass correlation coefficient
+
+```
+
