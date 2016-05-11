@@ -11,7 +11,3 @@ library(magrittr)
 library(dplyr)
 library(car)
 ```
-
-```{r}
-
-```

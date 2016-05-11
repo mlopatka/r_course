@@ -19,10 +19,9 @@ library(gvlma)
 ```
 
 ```{r}
-bulletFEATS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/x.csv")
-bulletTOW <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/y.csv")
+#bulletFEATS <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/x.csv")
+#bulletTOW <- read.csv("/Users/Martin/Dropbox/bulletFeats/v1-30/y.csv")
 #fit <- lm(data.frame(bulletTOW) ~ bulletFEATS$X2859.8)
-
 ```
 
 
@@ -66,8 +65,28 @@ ncvTest(fithw)
 ```
 A significant p-value for this test suggests heteroscedasticity (violation!), therefore the observed p-value suggest we are OK for the honoscecadicity assumption
 
+
 ```{r}
+fit2<-fithw
 
+fit2_PIpred <- predict(fit2, newdata=hwReg, interval="prediction")
+fit2_CIpred <- predict(fit2, newdata=hwReg, interval="confidence")
 
+fit2_PIpred <- as.data.frame(fit2_PIpred)
+fit2_CIpred <- as.data.frame(fit2_CIpred)
+
+names(fit2_PIpred) <- c("Fit Values","Lower Prediction Interval","Upper Prediction Interval")
+names(fit2_CIpred) <- c("Fit Values","Lower Confidence Interval","Upper Confidence Interval")
+
+thing<-merge(fit2_CIpred,fit2_PIpred,by="Fit Values")
 ```
 
+```{r visualizingResults}
+ggplot(hwReg, aes(x=height, y=weight)) + labs(x=labx,y=laby)+ geom_point(alpha=0.6,cex=2.5,shape=21)
++ geom_point(data=hw, aes(x=height, y=weight), cex=2, col="goldrod")
++ geom_line(data = fit_predict, aes(x = height, y = fit, lty = "Fit Values")) 
++ geom_line(data = fit_predict, aes(x = height, y = Lwr_PI, lty= "95% PI"))
++ geom_line(data = fit_predict, aes(x = height, y = Upr_PI, lty= "95% PI")) 
++ scale_linetype_manual("", breaks=c("Fit", "95% PI"), values=c(3,2)) 
+
+```
